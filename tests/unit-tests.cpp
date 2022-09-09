@@ -1,15 +1,41 @@
-#include "include/log/log.hpp"
-#include "include/hash.hpp"
-#include "include/signal.hpp"
-#include "include/singleton.hpp"
-#include "include/container/hash_map.hpp"
-#include "include/container/vector.hpp"
-#include "include/thread/thread.hpp"
-#include "include/time/profiler.hpp"
-#include "include/time/time.hpp"
+#include "math.hpp"
 
 using namespace Gorilla;
+using namespace Gorilla::Math;
 
+static void log(LogLevel level, const char *filepath, uint32_t line, ...)
+{
+    static const char* level_names[] = {
+        "Message",
+        "Warning",
+        "Error",
+        "Assert"
+    };
+    static THREAD_LOCAL char buffer[256];
+
+    // format user log
+    va_list arguments;
+    va_start(arguments, line);
+    const char* format = va_arg(arguments, const char*);
+    int32_t length = VSPRINTF(buffer, format, arguments);
+    va_end(arguments);
+
+    // early exist
+    if (length >= 256)
+    {
+        log(LogLevel::WARNING, filepath, line, "log skipped because too long");
+        return;
+    }
+
+    // display log
+    std::FILE *stream = level == LogLevel::MESSAGE ? stdout : stderr;
+    fprintf(stream, "[%s] %s:%u: %s\n", level_names[(uint32_t)level], filepath, line, buffer);
+
+    // stop execution when asserting
+    if (level == LogLevel::ASSERT)
+        abort();
+}
+#define LOG_ASSERT(_condition_, ...) if(!(_condition_)) { gassert(FORMAT_FILEPATH(__FILE__), __LINE__, __VA_ARGS__); }
 #define TEST(_condition_) LOG_ASSERT(_condition_, #_condition_);
 
 void test_hash()
