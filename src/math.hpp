@@ -4,7 +4,7 @@
 **  Includes
 ******************************************************************************/
 #include "vector2.hpp"
-// #include "vector3.hpp"
+#include "vector3.hpp"
 // #include "vector4.hpp"
 // #include "quaternion.hpp"
 // #include "matrix33.hpp"
@@ -49,9 +49,9 @@ namespace Gorilla { namespace Math
     }
 
     template<typename T>
-    inline T clamp(const T& a, const T& min, const T& max)
+    inline T clamp(const T& value, const T& min_value, const T& max_value)
     {
-        return min<T>(max, max<T>(min, a));
+        return min<T>(max_value, max<T>(min_value, value));
     }
 
     template <typename T>

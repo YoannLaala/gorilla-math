@@ -1,7 +1,7 @@
 #pragma once
 
-#include "math.hpp"
 #include <cstdint>
+#include <math.h>
 
 /******************************************************************************
 **  Class Declaration
@@ -84,7 +84,8 @@ namespace Gorilla { namespace Math
     template <typename T>
     Vector2<T>::Vector2()
     {
-        memset(m_data, sizeof(m_data), 0);
+        m_data[0] = (T)0;
+        m_data[1] = (T)0;
     }
 
     //! @brief      constructor
@@ -100,145 +101,145 @@ namespace Gorilla { namespace Math
     Vector2<T>::Vector2(const Vector2& reference)
     {
         m_data[0] = reference.get_x();
-        m_data[0] = reference.get_y();
+        m_data[1] = reference.get_y();
     }
 
     //! @brief      set
     template <typename T>
     void Vector2<T>::set(T x, T y)
     {
-        data[0] = x;
-        data[1] = y;
+        m_data[0] = x;
+        m_data[1] = y;
     }
 
     //! @brief      set_x
     template <typename T>
     void Vector2<T>::set_x(T x)
     {
-        data[0] = x;
+        m_data[0] = x;
     }
 
     //! @brief      set_y
     template <typename T>
     void Vector2<T>::set_y(T y)
     {
-        data[1] = y;
+        m_data[1] = y;
     }
 
     //! @brief      add
     template <typename T>
     void Vector2<T>::add(T x, T y)
     {
-        data[0] += x;
-        data[1] += y;
+        m_data[0] += x;
+        m_data[1] += y;
     }
 
     //! @brief      add_x
     template <typename T>
     void Vector2<T>::add_x(T x)
     {
-        data[0] += x;
+        m_data[0] += x;
     }
 
     //! @brief      add_y
     template <typename T>
     void Vector2<T>::add_y(T y)
     {
-        data[1] += y;
+        m_data[1] += y;
     }
 
     //! @brief      sub
     template <typename T>
     void Vector2<T>::sub(T x, T y)
     {
-        data[0] -= x;
-        data[1] -= y;
+        m_data[0] -= x;
+        m_data[1] -= y;
     }
 
     //! @brief      sub_x
     template <typename T>
     void Vector2<T>::sub_x(T x)
     {
-        data[0] -= x;
+        m_data[0] -= x;
     }
 
     //! @brief      sub_y
     template <typename T>
     void Vector2<T>::sub_y(T y)
     {
-        data[1] -= y;
+        m_data[1] -= y;
     }
 
     //! @brief      mul
     template <typename T>
     void Vector2<T>::mul(T x, T y)
     {
-        data[0] *= x;
-        data[1] *= y;
+        m_data[0] *= x;
+        m_data[1] *= y;
     }
 
     //! @brief      mul_x
     template <typename T>
     void Vector2<T>::mul_x(T x)
     {
-        data[0] *= x;
+        m_data[0] *= x;
     }
 
     //! @brief      mul_y
     template <typename T>
     void Vector2<T>::mul_y(T y)
     {
-        data[1] *= y;
+        m_data[1] *= y;
     }
 
     //! @brief      div
     template <typename T>
     void Vector2<T>::div(T x, T y)
     {
-        data[0] /= x;
-        data[1] /= y;
+        m_data[0] /= x;
+        m_data[1] /= y;
     }
 
     //! @brief      div_x
     template <typename T>
     void Vector2<T>::div_x(T x)
     {
-        data[0] /= x;
+        m_data[0] /= x;
     }
 
     //! @brief      div_y
     template <typename T>
     void Vector2<T>::div_y(T y)
     {
-        data[1] /= y;
+        m_data[1] /= y;
     }
 
     //! @brief      cross
     template <typename T>
     T Vector2<T>::cross(const Vector2& reference) const
     {
-        return (data[1] * reference.get_x()) - (data[0] * reference.get_y());
+        return (m_data[1] * reference.get_x()) - (m_data[0] * reference.get_y());
     }
 
     //! @brief      dot
     template <typename T>
     T Vector2<T>::dot(const Vector2& reference) const
     {
-        return (data[0] * reference.get_x()) + (data[1] * reference.get_y());
+        return (m_data[0] * reference.get_x()) + (m_data[1] * reference.get_y());
     }
 
     //! @brief      length_square
     template <typename T>
     T Vector2<T>::length_square() const
     {
-        return (data[0] * data[0]) + (data[1] * data[1]);
+        return (m_data[0] * m_data[0]) + (m_data[1] * m_data[1]);
     }
 
     //! @brief      length
     template <typename T>
     T Vector2<T>::length() const
     {
-        return (T)sqrt(length_square());
+        return (T)sqrt((float)length_square());
     }
 
     //! @brief      normalize
@@ -247,36 +248,34 @@ namespace Gorilla { namespace Math
     {
         T length_inverse = 1.0f / length();
         mul(length_inverse, length_inverse);
-
-        return sqrt(length_square());
     }
 
     //! @brief      operator==
     template <typename T>
     bool Vector2<T>::operator==(const Vector2& reference) const
     {
-        return data[0] == reference.get_x() && data[1] == reference.get_y();
+        return m_data[0] == reference.get_x() && m_data[1] == reference.get_y();
     }
 
     //! @brief      operator!=
     template <typename T>
     bool Vector2<T>::operator!=(const Vector2& reference) const
     {
-        return data[0] != reference.get_x() || data[1] != reference.get_y();
+        return m_data[0] != reference.get_x() || m_data[1] != reference.get_y();
     }
 
     //! @brief      operator+
     template <typename T>
     Vector2<T> Vector2<T>::operator+(const Vector2& reference) const
     {
-        return Vector2(data[0] + reference.get_x(), data[1] + reference.get_y());
+        return Vector2(m_data[0] + reference.get_x(), m_data[1] + reference.get_y());
     }
 
     //! @brief      operator+
     template <typename T>
     Vector2<T> Vector2<T>::operator+(T value) const
     {
-        return Vector2(data[0] + value, data[1] + value);
+        return Vector2(m_data[0] + value, m_data[1] + value);
     }
 
     //! @brief      operator+=
@@ -299,14 +298,14 @@ namespace Gorilla { namespace Math
     template <typename T>
     Vector2<T> Vector2<T>::operator-(const Vector2& reference) const
     {
-        return Vector2(data[0] - reference.get_x(), data[1] - reference.get_y());
+        return Vector2(m_data[0] - reference.get_x(), m_data[1] - reference.get_y());
     }
 
     //! @brief      operator-
     template <typename T>
     Vector2<T> Vector2<T>::operator-(T value) const
     {
-        return Vector2(data[0] - value, data[1] - value);
+        return Vector2(m_data[0] - value, m_data[1] - value);
     }
 
     //! @brief      operator-=
@@ -329,14 +328,14 @@ namespace Gorilla { namespace Math
     template <typename T>
     Vector2<T> Vector2<T>::operator*(const Vector2& reference) const
     {
-        return Vector2(data[0] * reference.get_x(), data[1] * reference.get_y());
+        return Vector2(m_data[0] * reference.get_x(), m_data[1] * reference.get_y());
     }
 
     //! @brief      operator*
     template <typename T>
     Vector2<T> Vector2<T>::operator*(T value) const
     {
-        return Vector2(data[0] * value, data[1] * value);
+        return Vector2(m_data[0] * value, m_data[1] * value);
     }
 
     //! @brief      operator*=
@@ -357,7 +356,7 @@ namespace Gorilla { namespace Math
     template <typename T>
     Vector2<T> Vector2<T>::operator/(const Vector2& reference) const
     {
-        return Vector2(data[0] / reference.get_x(), data[1] / reference.get_y());
+        return Vector2(m_data[0] / reference.get_x(), m_data[1] / reference.get_y());
     }
 
     //! @brief      operator/
@@ -365,7 +364,7 @@ namespace Gorilla { namespace Math
     Vector2<T> Vector2<T>::operator/(T value) const
     {
         T fInverse = 1.0f / value;
-        return Vector2(data[0] * fInverse, data[1] * fInverse);
+        return Vector2(m_data[0] * fInverse, m_data[1] * fInverse);
     }
 
     //! @brief      operator/=
@@ -387,27 +386,27 @@ namespace Gorilla { namespace Math
     template <typename T>
     T Vector2<T>::operator[](uint32_t index) const
     {
-        return data[index];
+        return m_data[index];
     }
 
     //! @brief      operator[]
     template <typename T>
     T& Vector2<T>::operator[](uint32_t index)
     {
-        return data[index];
+        return m_data[index];
     }
 
     //! @brief      get_x
     template <typename T>
     T Vector2<T>::get_x() const
     {
-        return data[0];
+        return m_data[0];
     }
 
     //! @brief      get_y
     template <typename T>
     T Vector2<T>::get_y() const
     {
-        return data[1];
+        return m_data[1];
     }
 }}

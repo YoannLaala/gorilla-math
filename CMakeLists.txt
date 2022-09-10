@@ -18,11 +18,11 @@ endif ()
 set(HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/math.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/vector2.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/vector3.hpp
 )
 
 set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/math.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/vector2.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES} ${HEADERS})
@@ -34,7 +34,7 @@ set(PC_FILENAME lib${PROJECT_NAME}.pc)
 set(PC_LINK_FLAGS -l${PROJECT_NAME})
 configure_file(${PC_FILENAME}.in ${PC_FILENAME} @ONLY)
 
-install(TARGETS ${PROJECT_NAME} DESTINATION lib)
+#install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION lib)
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/
     DESTINATION include/${PROJECT_NAME}
     FILES_MATCHING
@@ -48,3 +48,4 @@ add_executable (unit-tests EXCLUDE_FROM_ALL tests/unit-tests.cpp)
 target_include_directories(unit-tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(unit-tests ${LIBRARY_NAME} ${LIBRARIES_PLATFORM})
 add_test(vector2            unit-tests vector2)
+add_test(vector3            unit-tests vector3)
